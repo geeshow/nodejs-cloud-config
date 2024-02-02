@@ -37,6 +37,6 @@ function setEnvVariables(envVariables) {
   }
 }
 
-await loadEnv();
+loadEnv().then(r => console.log('env loaded'));
 export { loadEnvFromUrl, setEnvVariables };
 
