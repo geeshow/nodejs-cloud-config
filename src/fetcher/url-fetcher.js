@@ -1,8 +1,6 @@
-const fetch = require('isomorphic-fetch');
+import fetch from 'isomorphic-fetch';
 
-async function fetchEnvFile(url) {
+export async function fetchEnvFile(url) {
   const response = await fetch(url);
   return await response.text();
 }
-
-module.exports = { fetchEnvFile }
