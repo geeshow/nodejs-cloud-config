@@ -4,11 +4,18 @@
   "description": "Initial environment configuration from remote repository",
   "main": "index.js",
   "types": "main.d.ts",
-  "module": "src/index.ts",
+  "module": "index.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "jest"
   },
+  "files": [
+    "lib",
+    "index.js",
+    "index.d.ts",
+    "package.json",
+    "README.md"
+  ],
   "keywords": [
     "cloud",
     "config",

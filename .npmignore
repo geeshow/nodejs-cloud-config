@@ -1,5 +1,6 @@
 # .npmignore
 
+.idea/
 node_modules/
 src/
 .cloud-config.yml
