@@ -1,6 +1,13 @@
 const { Octokit } = require("@octokit/rest");
 
-export async function fetchEnvFile(param) {
+export interface FetchEnvFileParam {
+  token: string;
+  owner: string;
+  repo: string;
+  path: string;
+}
+
+export async function fetchEnvFile(param: FetchEnvFileParam) {
   const octokit = new Octokit({
     auth: param.token,
   })
@@ -19,7 +26,7 @@ export async function fetchEnvFile(param) {
   }
 }
 
-function decodeContent(content) {
+function decodeContent(content: string) {
   return Buffer.from(content, 'base64').toString('utf8');
 }
 

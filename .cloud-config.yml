@@ -1,7 +1,7 @@
 remote:
   type: url
   param:
-    url: https://config.remoteurl.com/project-name/.env
+    url: https://jsonplaceholder.typicode.com/todos/1
 
 #remote:
 #  type: git

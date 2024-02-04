@@ -1,0 +1,14 @@
+# .npmignore
+
+node_modules/
+src/
+.cloud-config.yml
+.cloud-config.test.yml
+test/
+.gitignore
+.npmignore
+.sample.env
+babel.config.js
+jest.config.js
+package-lock.json
+tsconfig.json
