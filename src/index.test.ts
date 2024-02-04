@@ -43,13 +43,13 @@ describe('loadEnv', () => {
   it('should fetch env file and set env variables', async () => {
     const mockFetchEnvFile = jest.fn().mockResolvedValue('KEY=VALUE');
     
-    jest.mock('./lib/fetcher/git-fetcher', () => {
+    jest.mock('./fetcher/git-fetcher', () => {
       return {
         fetchEnvFile: mockFetchEnvFile
       };
     });
     
-    const { fetchEnvFile } = require('./lib/fetcher/git-fetcher');
+    const { fetchEnvFile } = require('./fetcher/git-fetcher');
     
     await loadEnv();
     

@@ -1,5 +1,5 @@
-import {parseEnvFile, parseYmlFile} from './lib/parser';
-import {getFileContent} from './lib/file-reader';
+import {parseEnvFile, parseYmlFile} from './utils/parser';
+import {getFileContent} from './utils/file-reader';
 
 export default async function loadEnv() {
   const cloudConfigFilename = getCloudConfigFilenameByNodeEnv();
