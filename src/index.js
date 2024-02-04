@@ -1,35 +1,40 @@
-import { fetchEnvFile } from './fetcher/url-fetcher.js';
-import { parseEnvFile } from './parser/index.js';
-import fs from 'fs';
+import {parseEnvFile, parseYmlFile} from './utils/parser';
+import {getFileContent} from './utils/file-reader';
 
+/**
+ * Load env file from cloud and set it to process.env using fetcher module and utils module
+ * @returns {Promise<void>}
+ * @private
+ */
 async function loadEnv() {
-  const config = getConfigData();
-  const url = config['CLOUD.CONFIG.IMPORT.URL']
-  if (url) {
-    await loadEnvFromUrl(url);
-  }
-}
+  const cloudConfigFilename = getCloudConfigFilenameByNodeEnv();
+  const cloudConfigFile = getFileContent(`${process.cwd()}/${cloudConfigFilename}`);
+  const config = getTypedConfig(cloudConfigFile);
 
-function getConfigData() {
-  const env = process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : '';
-  const basePath = process.cwd();
-  const filename = `.cloudconfig${env}`;
-  const envData = fs.readFileSync(`${basePath}/${filename}`).toString();
-  // log to string
-  console.log('read cloud config file: ', filename);
-  return parseEnvFile(envData)
-}
-
-async function loadEnvFromUrl(url) {
   try {
-    const envData = await fetchEnvFile(url);
+    const fetcher = require(`./fetcher/${config.type}-fetcher.js`);
+    const envData = await fetcher.fetchEnvFile(config.param);
     const envVariables = parseEnvFile(envData);
     setEnvVariables(envVariables);
-    console.log('Successfully loaded env from URL: ', url);
+
+    console.log(`Successfully loaded env from ${config.type}:`, config.param);
   } catch (error) {
     console.error(`Error fetching the env file: ${error.message}`);
   }
 }
+
+function getCloudConfigFilenameByNodeEnv() {
+  const env = process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : '';
+  return `.cloud-config${env}.yml`;
+}
+
+function getTypedConfig(cloudConfigFile) {
+  const config = parseYmlFile(cloudConfigFile);
+  const type = config.remote.type.toLocaleLowerCase();
+  const param = config.remote.param[type];
+  return { type, param };
+}
+
 
 function setEnvVariables(envVariables) {
   for (const key of Object.keys(envVariables)) {
@@ -37,6 +42,5 @@ function setEnvVariables(envVariables) {
   }
 }
 
-loadEnv().then(r => console.log('env loaded'));
-export { loadEnvFromUrl, setEnvVariables };
+export { loadEnv, setEnvVariables, getCloudConfigFilenameByNodeEnv, getTypedConfig };
 

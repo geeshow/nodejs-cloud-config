@@ -1,36 +1,32 @@
-const { loadEnvFromUrl, setEnvVariables } = require('./index');
+const { getCloudConfigFilenameByNodeEnv, getTypedConfig, setEnvVariables, loadEnv} = require('./index');
 const { fetchEnvFile } = require('./fetcher/url-fetcher');
-const { parseEnvFile } = require('./parser');
+const { getFileContent } = require('./utils/file-reader');
 
-jest.mock('./fetcher/url-fetcher');
-jest.mock('./parser');
+describe('getCloudConfigFilenameByNodeEnv', () => {
+  it('should read cloud config file by default', () => {
+    process.env.NODE_ENV = '';
+    const filepath = getCloudConfigFilenameByNodeEnv();
+    expect(filepath).toEqual(`.cloud-config.yml`);
+  })
 
-describe('loadEnvFromUrl', () => {
-  it('should fetch env file and set env variables', async () => {
-    const mockUrl = 'http://example.com/envfile';
-    const mockEnvData = 'KEY=VALUE';
-    const mockEnvVariables = { KEY: 'VALUE' };
+  it('should read cloud config file on test env', () => {
+    process.env.NODE_ENV = 'test';
+    const filepath = getCloudConfigFilenameByNodeEnv();
+    expect(filepath).toEqual(`.cloud-config.test.yml`);
+  })
+});
 
-    fetchEnvFile.mockResolvedValue(mockEnvData);
-    parseEnvFile.mockReturnValue(mockEnvVariables);
+describe('getTypedConfig', () => {
+  it('should parse cloud config file and return type and param', () => {
+    const mockCloudConfigFile = `
+remote:
+  type: url
+  param:
+    url: https://config.remoteurl.com/project-name/.env`;
 
-    await loadEnvFromUrl(mockUrl);
+    const result = getTypedConfig(mockCloudConfigFile);
 
-    expect(fetchEnvFile).toHaveBeenCalledWith(mockUrl);
-    expect(parseEnvFile).toHaveBeenCalledWith(mockEnvData);
-    expect(process.env.KEY).toBe('VALUE');
-  });
-
-  it('should log error if fetching env file fails', async () => {
-    const mockUrl = 'http://example.com/envfile';
-    const mockError = new Error('Network error');
-
-    fetchEnvFile.mockRejectedValue(mockError);
-    console.error = jest.fn();
-
-    await loadEnvFromUrl(mockUrl);
-
-    expect(console.error).toHaveBeenCalledWith(`Error fetching the env file: ${mockError.message}`);
+    expect(result).toEqual({ type: 'url', param: 'https://config.remoteurl.com/project-name/.env' });
   });
 });
 
@@ -44,3 +40,37 @@ describe('setEnvVariables', () => {
     expect(process.env.KEY2).toBe('VALUE2');
   });
 });
+
+//
+// jest.mock('./fetcher/url-fetcher');
+// jest.mock('./utils/parser');
+// jest.mock('./utils/file-reader');
+//
+
+jest.mock('./fetcher/url-fetcher', () => {
+  return {
+    fetchEnvFile: jest.fn()
+  };
+})
+jest.mock('./fetcher/git-fetcher', () => {
+  return {
+    fetchEnvFile: jest.fn()
+  };
+})
+
+describe('loadEnv', () => {
+
+
+  it('should fetch env file and set env variables', async () => {
+    const mockEnvData = 'KEY=VALUE';
+
+    // getFileContent.mockReturnValue(mockCloudConfigFile);
+    fetchEnvFile.mockResolvedValue(mockEnvData);
+
+    await loadEnv();
+
+    expect(fetchEnvFile).toHaveBeenCalledWith('https://config.remoteurl.com/project-name/.env');
+    expect(process.env.KEY).toBe('VALUE');
+  });
+});
+

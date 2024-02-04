@@ -1,18 +1,18 @@
-const fetch = require('isomorphic-fetch');
 const { fetchEnvFile } = require('./url-fetcher');
-
-jest.mock('isomorphic-fetch');
 
 describe('fetchEnvFile', () => {
   it('should fetch env file correctly', async () => {
-    const mockUrl = 'http://example.com/envfile';
-    const mockResponse = { text: jest.fn().mockResolvedValue('KEY=VALUE') };
+    const param = {
+      url: 'https://jsonplaceholder.typicode.com/todos/1'
+    }
+    const result = await fetchEnvFile(param);
+    console.log('result', result)
 
-    fetch.mockResolvedValue(mockResponse);
-
-    const result = await fetchEnvFile(mockUrl);
-
-    expect(fetch).toHaveBeenCalledWith(mockUrl);
-    expect(result).toBe('KEY=VALUE');
+    expect(result).toBe(`{
+  "userId": 1,
+  "id": 1,
+  "title": "delectus aut autem",
+  "completed": false
+}`);
   });
 });

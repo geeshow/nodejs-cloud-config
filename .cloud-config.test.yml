@@ -1,0 +1,7 @@
+remote:
+  type: git
+  param:
+    token: # Your GitHub token
+    owner: # Your GitHub username
+    repo: # Your GitHub repository
+    path: # Your GitHub file path

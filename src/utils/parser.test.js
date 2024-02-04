@@ -1,4 +1,4 @@
-const { parseEnvFile } = require('./index');
+const { parseEnvFile } = require('./parser');
 
 describe('parseEnvFile', () => {
   it('should parse env file correctly', () => {
