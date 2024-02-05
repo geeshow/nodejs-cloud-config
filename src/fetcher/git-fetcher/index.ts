@@ -5,6 +5,7 @@ export interface FetchEnvFileParam {
   owner: string;
   repo: string;
   path: string;
+  branch: string;
 }
 
 export async function fetchEnvFile(param: FetchEnvFileParam) {
@@ -14,11 +15,13 @@ export async function fetchEnvFile(param: FetchEnvFileParam) {
 
   try {
     const content =
-      await octokit.rest.repos.getContent( {
+      await octokit.repos.getContent( {
         owner: param.owner,
         repo: param.repo,
-        path: param.path
+        path: param.path,
+        ref: param.branch
       });
+    console.log('content', content)
     const contentData = content.data.content;
     return decodeContent(contentData);
   } catch (error) {

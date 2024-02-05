@@ -49,8 +49,6 @@ describe('loadEnv', () => {
       };
     });
     
-    const { fetchEnvFile } = require('./fetcher/git-fetcher');
-    
     await loadEnv();
     
     expect(mockFetchEnvFile).toHaveBeenCalledWith({ token: null, owner: null, repo: null, path: null });

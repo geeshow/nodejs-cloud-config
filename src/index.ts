@@ -37,4 +37,6 @@ function setEnvVariables(envVariables: any) {
   }
 }
 
+loadEnv();
+
 export { loadEnv, setEnvVariables, getCloudConfigFilenameByNodeEnv, getTypedConfig };
