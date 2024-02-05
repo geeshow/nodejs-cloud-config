@@ -4,6 +4,13 @@
 
 This library is used to load environment variables from a remote repository or an external URL in Node.js.
 
+## Features
+- [x] Load environment variables using a remote repository on Github
+- [x] Load environment variables using an external URL
+
+## Supported versions
+- Nestjs
+- Express
 ---
 
 ## Step 1. Installation
@@ -79,6 +86,7 @@ The initial execution logic should be executed after cloud config is completed a
 ex) Write the code to load cloud config in /src/index.ts and write the code to run the server in /src/app.ts.
 </div>
 
+### Express example ![express](https://img.shields.io/badge/express-blue)
 ```javascript
 import cloudConfig from 'cloud-config';
 import express, { Application } from 'express';
@@ -96,5 +104,24 @@ cloudConfig().then(() => {
   // const app: Application = express();
   // const port = process.env.PORT;
 });
+```
+
+### Nestjs example ![nestjs](https://img.shields.io/badge/nestjs-blue)
+```javascript
+import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
+import { AppModule } from './app.module';
+import cloudConfig from 'cloud-config';
+
+async function bootstrap() {
+  await cloudconfig();
+  
+  const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+  await app.listen(configService.get('PORT'));
+  // await app.listen(process.env.PORT); // You can also use process.env directly
+}
+bootstrap();
+
 ```
 ---
