@@ -5,12 +5,10 @@ export default async function loadEnv() {
   const cloudConfigFilename = getCloudConfigFilenameByNodeEnv();
   const cloudConfigFile = getFileContent(`${process.cwd()}/${cloudConfigFilename}`);
   const config = getTypedConfig(cloudConfigFile);
-  console.log('config', config)
 
   try {
     const fetcher = require(`./fetcher/${config.type}-fetcher`);
     const envData = await fetcher.fetchEnvFile(config.param);
-    console.log('envData', envData)
     const envVariables = parseEnvFile(envData);
     setEnvVariables(envVariables);
 

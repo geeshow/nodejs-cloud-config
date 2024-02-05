@@ -1,13 +1,13 @@
 {
-  "name": "@geeshow/cloud-config",
-  "version": "0.2.2",
+  "name": "nodejs-cloud-config",
+  "version": "0.0.2",
   "description": "Initial environment configuration from remote repository",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "module": "lib/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "github-package": "npm publish",
+    "pub": "npm publish",
     "test": "jest"
   },
   "files": [
@@ -21,7 +21,8 @@
     "environment",
     "remote",
     "repository",
-    "configuration"
+    "configuration",
+    "nodejs"
   ],
   "author": "ken",
   "license": "MIT",
@@ -45,7 +46,6 @@
     "typescript": "^5.3.3"
   },
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com",
     "access": "public"
   },
   "repository": {

@@ -1,8 +1,4 @@
-# node-cloud-config
-
-[![Build Status](https://travis-ci.org/mbroadst/node-cloud-config.svg?branch=main)](https://travis-ci.org/mbroadst/node-cloud-config)
-[![Coverage Status](https://coveralls.io/repos/github/mbroadst/node-cloud-config/badge.svg?branch=main)](https://coveralls.io/github/mbroadst/node-cloud-config?branch=main)
-[![npm version](https://badge.fury.io/js/node-cloud-config.svg)](https://badge.fury.io/js/node-cloud-config)
+# nodejs-cloud-config
 
 이 라이브러리는 Node.js의 Github 원격 저장소, 외부 URL을 이용해 환경변수를 로드하는 라이브러리입니다. 
 
@@ -12,7 +8,7 @@ This library is used to load environment variables from a remote repository or a
 
 ## Step 1. Installation
 ```bash
-npm install node-cloud-config
+npm install nodejs-cloud-config
 ```
 
 ## Step 2. Make a cloud config
