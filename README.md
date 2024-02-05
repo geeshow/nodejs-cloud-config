@@ -13,14 +13,20 @@ npm install nodejs-cloud-config
 
 ## Step 2. Make a cloud config
 Cloud config은 기본적으로 설정파일을 요구합니다. 설정파일은 yml을 사용하며 파일명은 다음과 같은 형식을 가집니다.
-file: cloud-config.{NODE_ENV}.yml (e.g. cloud-config.development.yml)
+file: .cloud-config.{NODE_ENV}.yml (e.g. cloud-config.development.yml)
 NODE_ENV를 사용하지 않을 경우, 파일명은 `cloud-config.yml`이 됩니다.
-
 <div style="color:wheat;">
 Cloud config requires a configuration file. The configuration file uses yml and has the following format.
 file: cloud-config.{NODE_ENV}.yml (e.g. cloud-config.development.yml)
 If you don't use NODE_ENV, the file name will be `cloud-config.yml`.
 </div>
+
+```
+PROJECT_ROOT/.cloud-config.yml (default)
+PROJECT_ROOT/.cloud-config.dev.yml (NODE_ENV=dev)
+PROJECT_ROOT/.cloud-config.prod.yml (NODE_ENV=prod)
+```
+
 
 ## Step 3. Set cloud config file
 Cloud config은 두가지 방법으로 환경변수를 로드할 수 있습니다. 첫번째 방법은 외부 URL을 이용해 환경변수를 로드하는 방법이고, 두번째 방법은 Github의 원격 저장소를 이용해 환경변수를 로드하는 방법입니다.
@@ -37,6 +43,7 @@ Load environment variables using an external public URL. Be careful as there may
 </div>
 
 ```yaml
+# .cloud-config.yml
 remote:
   type: url
   param:
@@ -51,6 +58,7 @@ Load environment variables using a remote repository on Github. To use a remote 
 </div>
 
 ```yaml
+# .cloud-config.yml
 remote:
   type: git
   param:
