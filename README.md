@@ -73,6 +73,7 @@ remote:
     owner: # Your GitHub username
     repo: # Your GitHub repository
     path: # Your GitHub file path
+    branch: # Your GitHub branch name
 ```
 
 ## Step 3. use in your app
