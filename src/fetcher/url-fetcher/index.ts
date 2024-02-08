@@ -1,10 +1,17 @@
-import fetch from 'isomorphic-fetch';
 import {Fetcher} from "../index";
+import {getUrlContent} from "../../utils/url-reader";
 
+export interface FetchEnvUrlParam {
+  url: string;
+}
 
 export class UrlFetcher implements Fetcher {
-  async fetchEnvFile(param: { url: string }) {
-    const response = await fetch(param.url);
-    return await response.text();
+  private param: FetchEnvUrlParam;
+  constructor(param: FetchEnvUrlParam) {
+    this.param = param
+  }
+  async fetchEnvFile() {
+    const response = await getUrlContent(this.param.url);
+    return response;
   }
 }

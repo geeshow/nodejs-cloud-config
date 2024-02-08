@@ -1,5 +1,5 @@
 import { Octokit } from "@octokit/rest";
-import { fetchEnvFile } from "./index"; // 경로는 실제 파일 위치에 따라 변경해야 합니다.
+import {FetchEnvGitParam, GitFetcher} from "./index"; // 경로는 실제 파일 위치에 따라 변경해야 합니다.
 
 jest.mock("@octokit/rest", () => {
   return {
@@ -17,9 +17,7 @@ jest.mock("@octokit/rest", () => {
   };
 });
 
-
-
-describe('git-fetcher', () => {
+describe('GitFetcher', () => {
   it('should fetch env file from git', async () => {
     const params = {
       token: "mock_token",
@@ -27,9 +25,10 @@ describe('git-fetcher', () => {
       repo: "mock_repo",
       path: "mock_path",
       branch: "mock_branch",
-    };
+    } as FetchEnvGitParam;
     
-    const result = await fetchEnvFile(params);
+    const gitFetcher = new GitFetcher(params);
+    const result = await gitFetcher.fetchEnvFile();
     expect(Octokit).toHaveBeenCalledWith({ auth: params.token });
     expect(result).toBe("mock content");
   });

@@ -1,8 +1,13 @@
 remote:
-  type: git
+  type: url
   param:
-    token: # Your GitHub token
-    owner: # Your GitHub username
-    repo: # Your GitHub repository
-    branch: # Your GitHub branch
-    path: # Your GitHub file path
+    url: https://jsonplaceholder.typicode.com/todos/1
+
+#remote:
+#  type: git
+#  param:
+#    token: # Your GitHub token
+#    owner: # Your GitHub username
+#    repo: # Your GitHub repository
+#    branch: # Your GitHub branch
+#    path: # Your GitHub file path

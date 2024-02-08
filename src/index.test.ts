@@ -1,4 +1,4 @@
-import {getCloudConfigFilenameByNodeEnv, getTypedConfig, setEnvVariables, loadEnv} from './index';
+import {getCloudConfigFilenameByNodeEnv, setEnvVariables, loadEnv} from './index';
 
 describe('getCloudConfigFilenameByNodeEnv', () => {
   it('should read cloud config file by default', () => {
@@ -14,20 +14,6 @@ describe('getCloudConfigFilenameByNodeEnv', () => {
   })
 });
 
-describe('getTypedConfig', () => {
-  it('should parse cloud config file and return type and param', () => {
-    const mockCloudConfigFile = `
-remote:
-  type: url
-  param:
-    url: https://config.remoteurl.com/project-name/.env`;
-    
-    const result = getTypedConfig(mockCloudConfigFile);
-    
-    expect(result).toEqual({ type: 'url', param: { url: 'https://config.remoteurl.com/project-name/.env' } });
-  });
-});
-
 describe('setEnvVariables', () => {
   it('should set env variables', () => {
     const mockEnvVariables = { KEY1: 'VALUE1', KEY2: 'VALUE2' };
@@ -39,19 +25,19 @@ describe('setEnvVariables', () => {
   });
 });
 
+
+jest.mock('./fetcher/url-fetcher', () => {
+  return {
+    UrlFetcher: jest.fn().mockImplementation(() => {
+      return {
+        fetchEnvFile: jest.fn().mockResolvedValue('KEY=VALUE')
+      };
+    })
+  };
+});
 describe('loadEnv', () => {
   it('should fetch env file and set env variables', async () => {
-    const mockFetchEnvFile = jest.fn().mockResolvedValue('KEY=VALUE');
-    
-    jest.mock('./fetcher/git-fetcher', () => {
-      return {
-        fetchEnvFile: mockFetchEnvFile
-      };
-    });
-    
     await loadEnv();
-    
-    expect(mockFetchEnvFile).toHaveBeenCalledWith({ token: null, owner: null, repo: null, path: null });
     expect(process.env.KEY).toBe('VALUE');
   });
 });
