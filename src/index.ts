@@ -1,5 +1,6 @@
 import {parseEnvFile, parseYmlFile} from './utils/parser';
 import {getFileContent} from './utils/file-reader';
+import {createFetcher, Fetcher} from "./fetcher";
 
 export default async function loadEnv() {
   const cloudConfigFilename = getCloudConfigFilenameByNodeEnv();
@@ -7,7 +8,7 @@ export default async function loadEnv() {
   const config = getTypedConfig(cloudConfigFile);
 
   try {
-    const fetcher = require(`./fetcher/${config.type}-fetcher`);
+    const fetcher: Fetcher = createFetcher(config.type);
     const envData = await fetcher.fetchEnvFile(config.param);
     const envVariables = parseEnvFile(envData);
     setEnvVariables(envVariables);
