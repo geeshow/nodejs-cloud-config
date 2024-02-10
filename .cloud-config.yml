@@ -1,10 +1,22 @@
+
 remote:
-  type: url
+  type: spring
+  format: yml
   param:
-    url: https://jsonplaceholder.typicode.com/todos/1
+    serverUrl: http://localhost:9078
+    applicationName: user-service
+    profile: live, stage
+
+#
+#remote:
+#  type: url
+#  format: json
+#  param:
+#    url: https://jsonplaceholder.typicode.com/todos/1
 
 #remote:
 #  type: git
+#  format: key=value
 #  param:
 #    token: # Your GitHub token
 #    owner: # Your GitHub username

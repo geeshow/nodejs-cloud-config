@@ -12,6 +12,9 @@ export function getUrlContent(url: string) {
       response.on('data', (chunk) => body.push(chunk));
       response.on('end', () => resolve(body.join('')));
     });
-    request.on('error', (err) => reject(err))
+    request.on('error', (err) => {
+      console.log('Error: ', err.message)
+      reject(err)
+    })
   }) as Promise<string>;
 }

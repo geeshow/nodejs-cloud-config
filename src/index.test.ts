@@ -30,7 +30,7 @@ jest.mock('./fetcher/url-fetcher', () => {
   return {
     UrlFetcher: jest.fn().mockImplementation(() => {
       return {
-        fetchEnvFile: jest.fn().mockResolvedValue('KEY=VALUE')
+        fetchConfigFromRemote: jest.fn().mockResolvedValue('KEY=VALUE')
       };
     })
   };

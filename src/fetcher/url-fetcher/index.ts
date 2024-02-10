@@ -1,6 +1,9 @@
 import {Fetcher} from "../index";
 import {getUrlContent} from "../../utils/url-reader";
-import {parseEnvFile} from "../../utils/parser";
+import {parseKeyValueFormat} from "../../utils/parser";
+import {YmlConfigFile} from "../../index";
+import {FetchEnvGitParam} from "../git-fetcher";
+import {FetchEnvSpringParam} from "../spring-fetcher";
 
 export interface FetchEnvUrlParam {
   url: string;
@@ -8,15 +11,20 @@ export interface FetchEnvUrlParam {
 
 export class UrlFetcher implements Fetcher {
   private param: FetchEnvUrlParam;
-  constructor(param: FetchEnvUrlParam) {
-    this.param = param
+  private readonly parser: any;
+  private response: any;
+  constructor(param: FetchEnvUrlParam, parser: any) {
+    this.param = param;
+    this.parser = parser;
   }
-  async fetchEnvFile() {
-    const envData = await getUrlContent(this.param.url);
-    if (envData.startsWith('{') || envData.startsWith('[')) {
-      return JSON.parse(envData);
-    } else {
-      return parseEnvFile(envData);
+
+  async fetchConfigFromRemote() {
+    this.response = await getUrlContent(this.param.url);
+  }
+  parseToMapData() {
+    if (!this.response) {
+      throw new Error('fetchConfigFromRemote should be called before parseToMapData');
     }
+    return this.parser(this.response);
   }
 }

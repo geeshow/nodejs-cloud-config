@@ -4,20 +4,16 @@ import {FetchEnvSpringParam} from "../fetcher/spring-fetcher";
 import {FetchEnvGitParam} from "../fetcher/git-fetcher";
 import {FetchEnvUrlParam} from "../fetcher/url-fetcher";
 
-function parseEnvFile(fileContent: string) {
-  return parse(fileContent)
+function parseKeyValueFormat(fileContent: string) {
+  return parse(fileContent);
 }
 
-
-export interface YmlConfigFile {
-  remote: {
-    type: 'url' | 'git' | 'spring'
-    param: FetchEnvUrlParam | FetchEnvGitParam | FetchEnvSpringParam
-  }
+function parseYmlFormat(fileContent: string) {
+  return yaml.load(fileContent);
 }
 
-function parseYmlFile(fileContent: string): YmlConfigFile {
-  return yaml.load(fileContent) as YmlConfigFile
+function parseJsonFormat(fileContent: string) {
+  return JSON.parse(fileContent);
 }
 
-export { parseEnvFile, parseYmlFile }
+export { parseKeyValueFormat, parseYmlFormat, parseJsonFormat }
