@@ -4,6 +4,26 @@
 
 This library is used to load environment variables from a remote repository or an external URL in Node.js.
 
+## Usage
+```javascript
+import CloudConfig from 'nodejs-cloud-config';
+CloudConfig.load((config) => {
+  console.log('Loaded config in Callback: ', config);
+
+  // Bind the loaded config to the process.env
+  CloudConfig.bind(config, process.env);
+}).then((config) => {
+  console.log('Loaded config in Promise: ', config);
+})
+```
+
+```javascript
+const config = await CloudConfig.load();
+console.log('Loaded config in async/await', config);
+// Bind the loaded config to the process.env
+CloudConfig.bind(config, process.env);
+```
+
 ## Features
 - [x] Load environment variables using a spring cloud config server
 - [x] Load environment variables using a remote repository on Github
@@ -14,6 +34,12 @@ This library is used to load environment variables from a remote repository or a
 - Express
 
 ## Supported configuration file format
+원격 저장소의 환경변수파일은 다음의 형식을 지원합니다. 로딩된 환경변수는 Map 타입의 `config` 객체로 반환됩니다.
+
+<div style="color:wheat;">
+The environment variable file in the remote repository supports the following formats. The loaded environment variables are returned as a `config` object of type Map.
+</div>
+
 - Yml/yaml
 - Json
 - Key=value (.env)
