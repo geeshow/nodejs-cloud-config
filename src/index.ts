@@ -1,7 +1,6 @@
 import {parseEnvFile, parseYmlFile} from './utils/parser';
 import {getFileContent} from './utils/file-reader';
 import {createFetcher, Fetcher} from "./fetcher";
-import {FetchEnvUrlParam, UrlFetcher} from "./fetcher/url-fetcher";
 
 export default async function loadEnv() {
   const cloudConfigFilename = getCloudConfigFilenameByNodeEnv();
@@ -10,8 +9,7 @@ export default async function loadEnv() {
 
   try {
     const fetcher: Fetcher = createFetcher(config);
-    const envData = await fetcher.fetchEnvFile();
-    const envVariables = parseEnvFile(envData);
+    const envVariables = await fetcher.fetchEnvFile();
     setEnvVariables(envVariables);
 
     console.log(`Successfully loaded env from ${config.remote.type}:`, config.remote.param);

@@ -1,4 +1,5 @@
 import {Fetcher} from "../index";
+import {parseEnvFile} from "../../utils/parser";
 
 const { Octokit } = require("@octokit/rest");
 
@@ -25,7 +26,8 @@ export class GitFetcher implements Fetcher {
       ref: this.param.branch,
     });
     
-    return this.decodeContent(result.data.content);
+    const envData = this.decodeContent(result.data.content);
+    return parseEnvFile(envData);
   }
   
   decodeContent(content: string) {
