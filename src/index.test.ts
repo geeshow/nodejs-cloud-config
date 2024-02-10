@@ -38,6 +38,6 @@ jest.mock('./fetcher/url-fetcher', () => {
 describe('loadEnv', () => {
   it('should fetch env file and set env variables', async () => {
     await loadEnv();
-    expect(process.env.KEY).toBe('VALUE');
+    expect(process.env['cloud.aws.region.auto']).toBe("false");
   });
 });

@@ -1,5 +1,8 @@
 import { parse } from 'dotenv';
 import yaml from 'js-yaml';
+import {FetchEnvSpringParam} from "../fetcher/spring-fetcher";
+import {FetchEnvGitParam} from "../fetcher/git-fetcher";
+import {FetchEnvUrlParam} from "../fetcher/url-fetcher";
 
 function parseEnvFile(fileContent: string) {
   return parse(fileContent)
@@ -8,15 +11,8 @@ function parseEnvFile(fileContent: string) {
 
 export interface YmlConfigFile {
   remote: {
-    type: 'url' | 'git'
-    param: {
-      url: string
-    } | {
-      token: string
-      owner: string
-      repo: string
-      path: string
-    }
+    type: 'url' | 'git' | 'spring'
+    param: FetchEnvUrlParam | FetchEnvGitParam | FetchEnvSpringParam
   }
 }
 

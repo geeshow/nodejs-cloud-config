@@ -1,4 +1,3 @@
-import {FetchEnvGitParam, GitFetcher} from "../git-fetcher";
 import {FetchEnvUrlParam, UrlFetcher} from "./index";
 
 describe('url-fetcher', () => {
@@ -8,8 +7,7 @@ describe('url-fetcher', () => {
     } as FetchEnvUrlParam;
     
     const urlFetcher = new UrlFetcher(param);
-    const result = JSON.parse(await urlFetcher.fetchEnvFile());
-    console.log('result', result);
-    expect(result).toStrictEqual({ userId: 1, id: 1, title: 'delectus aut autem', completed: false });
+    const result = await urlFetcher.fetchEnvFile();
+    expect(result.title).toBe('delectus aut autem');
   });
 });

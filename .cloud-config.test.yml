@@ -1,7 +1,15 @@
 remote:
-  type: url
+  type: spring
   param:
-    url: https://jsonplaceholder.typicode.com/todos/1
+    serverUrl: http://localhost:9078
+    applicationName: user-service
+    profile: live, stage
+
+#
+#remote:
+#  type: url
+#  param:
+#    url: https://jsonplaceholder.typicode.com/todos/1
 
 #remote:
 #  type: git
