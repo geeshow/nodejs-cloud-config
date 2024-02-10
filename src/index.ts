@@ -16,6 +16,7 @@ export interface YmlConfigFile {
 }
 
 export default async function loadEnv() {
+  console.log('Loading env from remote...');
   const cloudConfigFilename = getCloudConfigFilenameByNodeEnv();
   const cloudConfigFilePath = getFileContent(`${process.cwd()}/${cloudConfigFilename}`);
   const config = parseYmlFormat(cloudConfigFilePath) as YmlConfigFile;
@@ -24,6 +25,7 @@ export default async function loadEnv() {
     const fetcher: Fetcher = createFetcher(config);
     await fetcher.fetchConfigFromRemote();
     const envVariables = fetcher.parseToMapData();
+    console.log('envVariables', envVariables)
     setEnvVariables(envVariables);
 
     console.log(`Successfully loaded env from ${config.remote.type}:`, config.remote.param);

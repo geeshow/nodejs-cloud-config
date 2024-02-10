@@ -1,6 +1,6 @@
 remote:
   type: spring
-  format: yml
+  format: json
   param:
     serverUrl: http://localhost:9078
     applicationName: user-service
@@ -9,13 +9,11 @@ remote:
 #
 #remote:
 #  type: url
-#  format: json
 #  param:
 #    url: https://jsonplaceholder.typicode.com/todos/1
 
 #remote:
 #  type: git
-#  format: key=value
 #  param:
 #    token: # Your GitHub token
 #    owner: # Your GitHub username

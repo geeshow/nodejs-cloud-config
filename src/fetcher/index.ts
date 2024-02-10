@@ -24,7 +24,7 @@ export function createFetcher(config: YmlConfigFile): Fetcher {
     case 'url':
       return new UrlFetcher(param as FetchEnvUrlParam, parser);
     case 'spring':
-      return new SpringFetcher(param as FetchEnvSpringParam, parser);
+      return new SpringFetcher(param as FetchEnvSpringParam, parseJsonFormat);
     default:
       throw new Error(`Unsupported fetcher type: ${type}`);
   }
