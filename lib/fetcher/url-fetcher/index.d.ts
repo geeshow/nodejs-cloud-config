@@ -1,3 +1,12 @@
-export declare function fetchEnvFile(param: {
+import { Fetcher } from "../index";
+export interface FetchEnvUrlParam {
     url: string;
-}): Promise<string>;
+}
+export declare class UrlFetcher implements Fetcher {
+    private param;
+    private readonly parser;
+    private response;
+    constructor(param: FetchEnvUrlParam, parser: any);
+    fetchConfigFromRemote(): Promise<void>;
+    parseToMapData(): any;
+}

@@ -1,5 +1,6 @@
 remote:
   type: spring
+  format: json
   param:
     serverUrl: http://localhost:9078
     applicationName: user-service

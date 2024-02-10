@@ -1,4 +1,4 @@
-import {getCloudConfigFilenameByNodeEnv, setEnvVariables, loadEnv} from './index';
+import {getCloudConfigFilenameByNodeEnv, setEnvVariables, loadEnv} from './load';
 
 describe('getCloudConfigFilenameByNodeEnv', () => {
   it('should read cloud config file by default', () => {
@@ -30,7 +30,7 @@ jest.mock('./fetcher/url-fetcher', () => {
   return {
     UrlFetcher: jest.fn().mockImplementation(() => {
       return {
-        fetchEnvFile: jest.fn().mockResolvedValue('KEY=VALUE')
+        fetchConfigFromRemote: jest.fn().mockResolvedValue('KEY=VALUE')
       };
     })
   };

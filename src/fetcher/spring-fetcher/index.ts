@@ -20,23 +20,32 @@ interface ISpringApplicationConfig {
 
 export class SpringFetcher implements Fetcher {
   private param: FetchEnvSpringParam;
-  constructor(param: FetchEnvSpringParam) {
-    this.param = param
+  private readonly parser: any;
+  private response: any;
+  constructor(param: FetchEnvSpringParam, parser: any) {
+    this.param = param;
+    this.parser = parser;
   }
-  async fetchEnvFile() {
+
+  async fetchConfigFromRemote() {
     const springCloudConfigRequestUrl = this.param.label ?
         `${this.param.serverUrl}/${this.param.applicationName}/${this.param.profile}/${this.param.label}` :
         `${this.param.serverUrl}/${this.param.applicationName}/${this.param.profile}`;
-    const springText = await getUrlContent(springCloudConfigRequestUrl);
-    const springApplicationData: ISpringApplicationConfig = JSON.parse(springText);
+    this.response = await getUrlContent(springCloudConfigRequestUrl);
+  }
+  
+  parseToMapData() {
+    if (!this.response) {
+      throw new Error('fetchConfigFromRemote should be called before parseToMapData');
+    }
     
-    const mapData = springApplicationData.propertySources
+    const springApplicationData: ISpringApplicationConfig = this.parser(this.response);
+    return springApplicationData.propertySources
         .reduce((acc, cur) => {
           return {
             ...acc,
             ...cur.source
           }
         }, {} as IEnv)
-    return mapData as IEnv;
   }
 }

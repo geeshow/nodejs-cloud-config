@@ -1,7 +1,5 @@
 import {Fetcher} from "../index";
-import {parseEnvFile} from "../../utils/parser";
-
-const { Octokit } = require("@octokit/rest");
+import {Octokit} from "@octokit/rest";
 
 export interface FetchEnvGitParam {
   token: string;
@@ -13,21 +11,29 @@ export interface FetchEnvGitParam {
 
 
 export class GitFetcher implements Fetcher {
-  private param: FetchEnvGitParam ;
-  constructor(param: FetchEnvGitParam) {
+  private param: FetchEnvGitParam;
+  private readonly parser: any;
+  private response: any;
+  constructor(param: FetchEnvGitParam, parser: any) {
     this.param = param;
+    this.parser = parser;
   }
-  async fetchEnvFile() {
+  async fetchConfigFromRemote() {
     const octokit = new Octokit({ auth: this.param.token });
-    const result = await octokit.repos.getContent({
+    this.response = await octokit.repos.getContent({
       owner: this.param.owner,
       repo: this.param.repo,
       path: this.param.path,
       ref: this.param.branch,
     });
-    
-    const envData = this.decodeContent(result.data.content);
-    return parseEnvFile(envData);
+  }
+  
+  parseToMapData() {
+    if (!this.response) {
+      throw new Error('fetchConfigFromRemote should be called before parseToMapData');
+    }
+    const envData = this.decodeContent(this.response.data.content);
+    return this.parser(envData);
   }
   
   decodeContent(content: string) {

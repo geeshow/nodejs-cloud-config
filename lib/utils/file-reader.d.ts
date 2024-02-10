@@ -1,2 +1,1 @@
-declare function getFileContent(path: string): string;
-export { getFileContent };
+export declare function getFileContent(path: string): string;

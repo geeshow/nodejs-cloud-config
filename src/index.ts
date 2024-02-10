@@ -1,34 +1,11 @@
-import {parseEnvFile, parseYmlFile} from './utils/parser';
-import {getFileContent} from './utils/file-reader';
-import {createFetcher, Fetcher} from "./fetcher";
+import loadEnv from "./load";
 
-export default async function loadEnv() {
-  const cloudConfigFilename = getCloudConfigFilenameByNodeEnv();
-  const cloudConfigFilePath = getFileContent(`${process.cwd()}/${cloudConfigFilename}`);
-  const config = parseYmlFile(cloudConfigFilePath);
-
+export default async function runLoadEnv() {
   try {
-    const fetcher: Fetcher = createFetcher(config);
-    const envVariables = await fetcher.fetchEnvFile();
-    setEnvVariables(envVariables);
-
-    console.log(`Successfully loaded env from ${config.remote.type}:`, config.remote.param);
+    await loadEnv();
   } catch (error) {
-    console.error(`Error fetching the env file: ${error}`);
+    console.error(`Error running loadEnv: ${error}`);
   }
 }
 
-function getCloudConfigFilenameByNodeEnv() {
-  const env = process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : '';
-  return `.cloud-config${env}.yml`;
-}
-
-function setEnvVariables(envVariables: any) {
-  for (const key of Object.keys(envVariables)) {
-    process.env[key] = envVariables[key];
-  }
-}
-
-loadEnv();
-
-export { loadEnv, setEnvVariables, getCloudConfigFilenameByNodeEnv };
+runLoadEnv();

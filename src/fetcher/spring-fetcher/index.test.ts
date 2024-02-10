@@ -1,6 +1,7 @@
 import { SpringFetcher, FetchEnvSpringParam } from './index';
 import * as urlReader from '../../utils/url-reader';
 import {getUrlContent} from "../../utils/url-reader";
+import {parseJsonFormat, parseKeyValueFormat} from "../../utils/parser";
 
 jest.mock("../../utils/url-reader", () => {
   return {
@@ -30,16 +31,18 @@ describe('SpringFetcher', () => {
   let springFetcher: SpringFetcher;
 
   beforeEach(() => {
+    const parser = parseJsonFormat
     fetchEnvSpringParam = {
       serverUrl: 'http://localhost:9078',
       applicationName: 'user-service',
       profile: 'live'
     };
-    springFetcher = new SpringFetcher(fetchEnvSpringParam);
+    springFetcher = new SpringFetcher(fetchEnvSpringParam, parser);
   });
 
   it('should fetch env file', async () => {
-    const result = await springFetcher.fetchEnvFile();
+    await springFetcher.fetchConfigFromRemote();
+    const result = springFetcher.parseToMapData();
 
     // expect(mockGetUrlContent).toHaveBeenCalledWith(`${fetchEnvSpringParam.serverUrl}/${fetchEnvSpringParam.applicationName}/${fetchEnvSpringParam.profile}`);
     // expect(result).toBe('KEY=VALUE');

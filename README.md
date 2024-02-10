@@ -5,12 +5,18 @@
 This library is used to load environment variables from a remote repository or an external URL in Node.js.
 
 ## Features
+- [x] Load environment variables using a spring cloud config server
 - [x] Load environment variables using a remote repository on Github
 - [x] Load environment variables using an external URL
 
-## Supported versions
+## Supported platforms
 - Nestjs
 - Express
+
+## Supported configuration file format
+- Yml/yaml
+- Json
+- Key=value (.env)
 ---
 
 ## Step 1. Installation
@@ -53,6 +59,7 @@ Load environment variables using an external public URL. Be careful as there may
 # .cloud-config.yml
 remote:
   type: url
+  format: json // or yml, yaml, env, key=value
   param:
     url: https://jsonplaceholder.typicode.com/todos/1
 ```
@@ -68,12 +75,30 @@ Load environment variables using a remote repository on Github. To use a remote 
 # .cloud-config.yml
 remote:
   type: git
+  format: json // or yml, yaml, env, key=value
   param:
     token: # Your GitHub token
     owner: # Your GitHub username
     repo: # Your GitHub repository
     path: # Your GitHub file path
     branch: # Your GitHub branch name
+```
+### type 3. spring cloud config server ![spring-cloud-config](https://img.shields.io/badge/spring--cloud--config-blue) 
+Spring cloud config server를 이용해 환경변수를 로드합니다. Spring cloud config server를 사용하기 위해서는 spring cloud config server가 실행중인 URL이 필요합니다.
+
+<div style="color:wheat;">
+Load environment variables using a spring cloud config server. To use a spring cloud config server, you need a URL where the spring cloud config server is running.
+</div>
+
+```yaml
+# .cloud-config.yml
+remote:
+  type: spring
+  format: json
+  param:
+    serverUrl: http://localhost:9078
+    applicationName: user-service
+    profile: live, stage
 ```
 
 ## Step 3. use in your app
@@ -89,7 +114,7 @@ ex) Write the code to load cloud config in /src/index.ts and write the code to r
 
 ### Express example ![express](https://img.shields.io/badge/express-blue)
 ```javascript
-import cloudConfig from 'cloud-config';
+import cloudConfig from 'nodejs-cloud-config';
 import express, { Application } from 'express';
 cloudConfig().then(() => {
   console.log('Cloud config loaded');
@@ -104,6 +129,18 @@ cloudConfig().then(() => {
   
   // const app: Application = express();
   // const port = process.env.PORT;
+});
+```
+
+### Spring cloud config example ![express](https://img.shields.io/badge/express-blue)
+```javascript
+import cloudConfig from 'nodejs-cloud-config';
+import express, { Application } from 'express';
+cloudConfig().then(() => {
+  console.log('Cloud config loaded');
+
+  const port = process.env['server.port'];
+  const apiUrl = process.env['api.myserver.url'];
 });
 ```
 
