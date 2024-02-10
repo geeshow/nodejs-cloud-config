@@ -3,3 +3,4 @@ remote:
   format: json
   param:
     url: https://jsonplaceholder.typicode.com/todos/1
+  debug: true

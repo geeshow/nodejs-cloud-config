@@ -8,9 +8,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "pub": "npm publish",
-    "spring-test": "NODE_ENV=spring node -r ts-node/register src/start.ts",
-    "git-test": "NODE_ENV=git node -r ts-node/register src/start.ts",
-    "url-test": "NODE_ENV=url node -r ts-node/register src/start.ts",
+    "spring-test": "NODE_ENV=spring node -r ts-node/register src/index.ts",
+    "git-test": "NODE_ENV=git node -r ts-node/register src/index.ts",
+    "url-test": "NODE_ENV=url node -r ts-node/register src/index.ts",
     "test": "jest"
   },
   "files": [

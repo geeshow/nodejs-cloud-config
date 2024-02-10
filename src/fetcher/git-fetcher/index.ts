@@ -1,7 +1,5 @@
 import {Fetcher} from "../index";
-import {parseKeyValueFormat} from "../../utils/parser";
 import {Octokit} from "@octokit/rest";
-import {YmlConfigFile} from "../../index";
 
 export interface FetchEnvGitParam {
   token: string;

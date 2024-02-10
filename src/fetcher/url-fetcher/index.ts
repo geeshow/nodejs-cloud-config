@@ -1,9 +1,5 @@
 import {Fetcher} from "../index";
 import {getUrlContent} from "../../utils/url-reader";
-import {parseKeyValueFormat} from "../../utils/parser";
-import {YmlConfigFile} from "../../index";
-import {FetchEnvGitParam} from "../git-fetcher";
-import {FetchEnvSpringParam} from "../spring-fetcher";
 
 export interface FetchEnvUrlParam {
   url: string;

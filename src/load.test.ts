@@ -1,4 +1,4 @@
-import {getCloudConfigFilenameByNodeEnv, setEnvVariables, loadEnv} from './index';
+import {getCloudConfigFilenameByNodeEnv, setEnvVariables, loadEnv} from './load';
 
 describe('getCloudConfigFilenameByNodeEnv', () => {
   it('should read cloud config file by default', () => {

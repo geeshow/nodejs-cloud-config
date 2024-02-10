@@ -1,4 +1,4 @@
-import { IRemoteFormatType, YmlConfigFile } from "../index";
+import { IRemoteFormatType, YmlConfigFile } from "../types/YmlConfigFile";
 export interface IEnv {
     [name: string]: string;
 }

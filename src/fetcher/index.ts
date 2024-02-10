@@ -2,9 +2,9 @@
 import {FetchEnvGitParam, GitFetcher} from "./git-fetcher";
 import {FetchEnvUrlParam, UrlFetcher} from "./url-fetcher";
 import {FetchEnvSpringParam, SpringFetcher} from "./spring-fetcher";
-import {IRemoteFormatType, YmlConfigFile} from "../index";
 import {parseJsonFormat, parseKeyValueFormat, parseYmlFormat} from "../utils/parser";
 import yaml from "js-yaml";
+import {IRemoteFormatType, YmlConfigFile} from "../types/YmlConfigFile";
 export interface IEnv {
   [name: string]: string;
 }
@@ -42,12 +42,12 @@ export function getParser(formatName: IRemoteFormatType): Function {
       return parseYmlFormat;
     case 'yaml':
       return parseYmlFormat;
-  case 'key=value':
-      return parseKeyValueFormat;
-  case 'properties':
-      return parseKeyValueFormat;
-  default:
-    return parseJsonFormat;
+    case 'key=value':
+        return parseKeyValueFormat;
+    case 'env':
+        return parseKeyValueFormat;
+    default:
+      return parseJsonFormat;
   }
 }
 
