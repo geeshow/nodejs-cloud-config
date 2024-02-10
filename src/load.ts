@@ -17,9 +17,9 @@ export default async function loadEnv() {
     if (config.remote.debug) {
       console.log('Fetched env:', envVariables)
     }
-    setEnvVariables(envVariables);
     
     console.log(`Successfully loaded env from ${config.remote.type}:`, config.remote.param);
+    return envVariables;
   } catch (error) {
     console.error(`Error fetching the env file: ${error}`);
   }
@@ -45,6 +45,12 @@ export function parseToMapData(formatName: IRemoteFormatType, remoteConfigFile: 
 function getCloudConfigFilenameByNodeEnv() {
   const env = process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : '';
   return `.cloud-config${env}.yml`;
+}
+
+function bind(target: any, envVariables: any) {
+  for (const key of Object.keys(envVariables)) {
+    process.env[key] = envVariables[key];
+  }
 }
 
 function setEnvVariables(envVariables: any) {

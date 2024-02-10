@@ -5,12 +5,12 @@ import {FetchEnvSpringParam, SpringFetcher} from "./spring-fetcher";
 import {parseJsonFormat, parseKeyValueFormat, parseYmlFormat} from "../utils/parser";
 import yaml from "js-yaml";
 import {IRemoteFormatType, YmlConfigFile} from "../types/YmlConfigFile";
-export interface IEnv {
+export interface IConfig {
   [name: string]: string;
 }
 export interface Fetcher {
   fetchConfigFromRemote(): void;
-  parseToMapData(): IEnv;
+  parseToMapData(): IConfig;
 }
 
 // Fetcher 구현체를 생성하는 팩토리 함수를 만듭니다.
