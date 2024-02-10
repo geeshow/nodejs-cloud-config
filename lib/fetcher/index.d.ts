@@ -1,10 +1,10 @@
 import { IRemoteFormatType, YmlConfigFile } from "../types/YmlConfigFile";
-export interface IEnv {
+export interface IConfig {
     [name: string]: string;
 }
 export interface Fetcher {
     fetchConfigFromRemote(): void;
-    parseToMapData(): IEnv;
+    parseToMapData(): IConfig;
 }
 export declare function createFetcher(config: YmlConfigFile): Fetcher;
 /**

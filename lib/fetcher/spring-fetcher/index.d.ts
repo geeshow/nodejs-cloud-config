@@ -1,4 +1,4 @@
-import { Fetcher, IEnv } from "../index";
+import { Fetcher, IConfig } from "../index";
 export interface FetchEnvSpringParam {
     serverUrl: string;
     applicationName: string;
@@ -11,5 +11,5 @@ export declare class SpringFetcher implements Fetcher {
     private response;
     constructor(param: FetchEnvSpringParam, parser: any);
     fetchConfigFromRemote(): Promise<void>;
-    parseToMapData(): IEnv;
+    parseToMapData(): IConfig;
 }
