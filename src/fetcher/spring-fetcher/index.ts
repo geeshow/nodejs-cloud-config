@@ -1,4 +1,4 @@
-import {Fetcher, IEnv} from "../index";
+import {Fetcher, IConfig} from "../index";
 import {getUrlContent} from "../../utils/url-reader";
 
 export interface FetchEnvSpringParam {
@@ -46,6 +46,6 @@ export class SpringFetcher implements Fetcher {
             ...acc,
             ...cur.source
           }
-        }, {} as IEnv)
+        }, {} as IConfig)
   }
 }

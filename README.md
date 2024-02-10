@@ -88,6 +88,7 @@ remote:
   format: json // or yml, yaml, env, key=value
   param:
     url: https://jsonplaceholder.typicode.com/todos/1
+  debug: false
 ```
 
 ### type 2. github repository ![github](https://img.shields.io/badge/github-blue) 
@@ -108,6 +109,7 @@ remote:
     repo: # Your GitHub repository
     path: # Your GitHub file path
     branch: # Your GitHub branch name
+  debug: false
 ```
 ### type 3. spring cloud config server ![spring-cloud-config](https://img.shields.io/badge/spring--cloud--config-blue) 
 Spring cloud config server를 이용해 환경변수를 로드합니다. Spring cloud config server를 사용하기 위해서는 spring cloud config server가 실행중인 URL이 필요합니다.
@@ -140,31 +142,46 @@ ex) Write the code to load cloud config in /src/index.ts and write the code to r
 
 ### Express example ![express](https://img.shields.io/badge/express-blue)
 ```javascript
-import cloudConfig from 'nodejs-cloud-config';
-import express, { Application } from 'express';
-cloudConfig().then(() => {
-  console.log('Cloud config loaded');
-  
-  // .env file is loaded at this point
-  // You can use process.env to access your environment variables
-  
+import CloudConfig from 'nodejs-cloud-config';
+CloudConfig.load((config) => {
+  console.log('Loaded config in Callback: ', config);
+
+  // Bind the loaded config to the process.env
+  CloudConfig.bind(config, process.env);
+
   // start your app here
   // require('app')
-  
+
   // or
-  
+
   // const app: Application = express();
   // const port = process.env.PORT;
-});
+}).then((config) => {
+  console.log('Loaded config in Promise: ', config);
+
+  // start your app here
+  // require('app')
+
+  // or
+
+  // const app: Application = express();
+  // const port = process.env.PORT;
+})
 ```
 
 ### Spring cloud config example ![express](https://img.shields.io/badge/express-blue)
 ```javascript
-import cloudConfig from 'nodejs-cloud-config';
 import express, { Application } from 'express';
-cloudConfig().then(() => {
-  console.log('Cloud config loaded');
+import CloudConfig from 'nodejs-cloud-config';
+CloudConfig.load((config) => {
+  console.log('Loaded config in Callback: ', config);
 
+  // Without binding the loaded config to the process.env
+  // const port = config['server.port'];
+  // const apiUrl = config['api.myserver.url'];
+
+  // Bind the loaded config to the process.env
+  CloudConfig.bind(config, process.env);
   const port = process.env['server.port'];
   const apiUrl = process.env['api.myserver.url'];
 });
@@ -172,13 +189,18 @@ cloudConfig().then(() => {
 
 ### Nestjs example ![nestjs](https://img.shields.io/badge/nestjs-blue)
 ```javascript
+
+
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
-import cloudConfig from 'cloud-config';
+import CloudConfig from 'nodejs-cloud-config';
 
 async function bootstrap() {
-  await cloudconfig();
+  const config = await CloudConfig.load();
+  console.log('Loaded config in async/await', config);
+  // Bind the loaded config to the process.env
+  CloudConfig.bind(config, process.env);
   
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
