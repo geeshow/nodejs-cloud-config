@@ -1,9 +1,8 @@
 remote:
-  type: spring
+  type: url
+  format: json
   param:
-    serverUrl: http://localhost:9078
-    applicationName: user-service
-    profile: live, stage
+    url: https://jsonplaceholder.typicode.com/todos/1
   debug: true
 
 #

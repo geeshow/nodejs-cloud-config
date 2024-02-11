@@ -1,10 +1,15 @@
 import http from 'http';
 import https from 'https';
 
-export function getUrlContent(url: string) {
+export function getUrlContent(url: string, headers?: any) {
   return new Promise((resolve, reject) => {
     const lib = url.startsWith('https') ? https : http;
-    const request = lib.get(url, (response) => {
+    const options = {
+      headers: {
+        ...headers
+      }
+    }
+    const request = lib.get(url, options, (response) => {
       if (response.statusCode && (response.statusCode < 200 || response.statusCode > 299)) {
         reject(new Error('Failed to load page, status code: ' + response.statusCode));
       }

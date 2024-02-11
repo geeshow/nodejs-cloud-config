@@ -1,4 +1,5 @@
 import {getCloudConfigFilenameByNodeEnv, setEnvVariables, loadEnv} from './load';
+import {IConfig} from "./fetcher";
 
 describe('getCloudConfigFilenameByNodeEnv', () => {
   it('should read cloud config file by default', () => {
@@ -26,18 +27,10 @@ describe('setEnvVariables', () => {
 });
 
 
-jest.mock('./fetcher/url-fetcher', () => {
-  return {
-    UrlFetcher: jest.fn().mockImplementation(() => {
-      return {
-        fetchConfigFromRemote: jest.fn().mockResolvedValue('KEY=VALUE')
-      };
-    })
-  };
-});
 describe('loadEnv', () => {
   it('should fetch env file and set env variables', async () => {
-    await loadEnv();
-    expect(process.env['cloud.aws.region.auto']).toBe("false");
+    const envVariables = await loadEnv() as IConfig;
+    
+    expect(envVariables['title']).toBe("delectus aut autem");
   });
 });

@@ -1,5 +1,5 @@
 import {Fetcher} from "../index";
-import {Octokit} from "@octokit/rest";
+import {getUrlContent} from "../../utils/url-reader";
 
 export interface FetchEnvGitParam {
   token: string;
@@ -19,20 +19,27 @@ export class GitFetcher implements Fetcher {
     this.parser = parser;
   }
   async fetchConfigFromRemote() {
-    const octokit = new Octokit({ auth: this.param.token });
-    this.response = await octokit.repos.getContent({
-      owner: this.param.owner,
-      repo: this.param.repo,
-      path: this.param.path,
-      ref: this.param.branch,
-    });
+    const owner = this.param.owner;
+    const repo = this.param.repo;
+    const path = this.param.path;
+    const branch = this.param.branch ? `?ref=${this.param.branch}` : '';
+    const token = this.param.token;
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}${branch}`;
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'User-Agent': 'NodejsCloudConfigModule'
+    }
+    const response = await getUrlContent(url, headers);
+    this.response = JSON.parse(response);
   }
   
   parseToMapData() {
     if (!this.response) {
       throw new Error('fetchConfigFromRemote should be called before parseToMapData');
     }
-    const envData = this.decodeContent(this.response.data.content);
+    const envData = this.decodeContent(this.response.content);
     return this.parser(envData);
   }
   
