@@ -1,9 +1,9 @@
 import { SpringFetcher, FetchEnvSpringParam } from './index';
-import * as urlReader from '../../utils/url-reader';
-import {getUrlContent} from "../../utils/url-reader";
+import * as urlReader from '../../utils/node/url-reader';
+import {getUrlContent} from "../../utils/node/url-reader";
 import {parseJsonFormat, parseKeyValueFormat} from "../../utils/parser";
 
-jest.mock("../../utils/url-reader", () => {
+jest.mock("../../utils/node/url-reader", () => {
   return {
     getUrlContent: jest.fn().mockResolvedValue(`{
       "name": "sample-service",

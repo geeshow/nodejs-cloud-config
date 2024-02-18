@@ -1,7 +1,7 @@
 import {FetchEnvGitParam, GitFetcher} from "./index";
 import {parseKeyValueFormat} from "../../utils/parser"; // 경로는 실제 파일 위치에 따라 변경해야 합니다.
 
-jest.mock("../../utils/url-reader", () => {
+jest.mock("../../utils/node/url-reader", () => {
   return {
     getUrlContent: jest.fn().mockResolvedValue(`
         {
