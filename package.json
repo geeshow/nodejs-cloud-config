@@ -1,6 +1,6 @@
 {
   "name": "nodejs-cloud-config",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Initial environment configuration from remote repository",
   "bin": {
     "cloud-config": "dist/register.cjs"
@@ -17,7 +17,8 @@
     "git-test": "NODE_ENV=git node register",
     "url-test": "NODE_ENV=url node register",
     "test": "jest --config jest.config.cjs",
-    "pub": "npm run roullup && npm publish"
+    "publish:github": "npm run roullup && npm publish --registry https://npm.pkg.github.com/",
+    "publish:npm": "npm run roullup && npm publish"
   },
   "files": [
     "dist",
@@ -38,7 +39,7 @@
   "author": "ken",
   "license": "MIT",
   "dependencies": {
-    "commander": "^12.0.0",
+    "commander": "^4.1.1",
     "cross-spawn": "^7.0.3",
     "js-yaml": "^4.1.0"
   },
