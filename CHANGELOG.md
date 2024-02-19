@@ -1,21 +1,22 @@
 # Change Log
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to the "nodejs-cloud-config" will be documented in this file. 
 
-## [0.1.0]
+## [v0.1.1](https://github.com/geeshow/nodejs-cloud-config/commit/a00af33f9e3e1d9af9bae213522b1d2f7207b209) - 2024-02-19
 
 ### Bug Fixes
 
-* Support ES6, CommonJS and Typescript
+* Missing `commander`, `cross-spawn` package in package.json
 
 ### Features
 
+* Supported ES6, CommonJS and Typescript
 * Supported Node CLI in package.json
     - `cloud-config` command
     - `cloud-config -e dev` command
     - `cloud-config -v` command
 
-## [0.8.0]
+## [v0.8.0](https://github.com/geeshow/nodejs-cloud-config/commit/be47a253d7ec8cfc41fda89dc5e7719229759403) - 2024-02-11
 
 ### Features
 

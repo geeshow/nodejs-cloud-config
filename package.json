@@ -1,6 +1,6 @@
 {
   "name": "nodejs-cloud-config",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Initial environment configuration from remote repository",
   "bin": {
     "cloud-config": "dist/register.cjs"
@@ -23,6 +23,7 @@
     "dist",
     "package.json",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "keywords": [
@@ -37,6 +38,8 @@
   "author": "ken",
   "license": "MIT",
   "dependencies": {
+    "commander": "^12.0.0",
+    "cross-spawn": "^7.0.3",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
