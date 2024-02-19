@@ -1,11 +1,10 @@
 import typescript from "@rollup/plugin-typescript";
-
 export default [
   {
     input: 'src/index.ts',
     output: [
       {
-        file: 'dist/index.js', // 번들 파일의 출력 경로
+        file: 'dist/index.cjs', // 번들 파일의 출력 경로
         format: 'esm' // 출력 포맷 ('esm' for ES module, 'cjs' for CommonJS, 'umd' for UMD)
       },
       {
@@ -16,14 +15,10 @@ export default [
     plugins: [typescript()]
   },
   {
-    input: 'src/register.ts',
+    input: 'src/register/index.cjs',
     output: [
       {
-        file: 'register/index.js',
-        format: 'esm'
-      },
-      {
-        file: 'register/index.cjs',
+        file: 'dist/register.cjs',
         format: 'cjs'
       }
     ],

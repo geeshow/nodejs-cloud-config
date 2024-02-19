@@ -43,7 +43,9 @@ export function parseToMapData(formatName: IRemoteFormatType, remoteConfigFile: 
 }
 
 function getCloudConfigFilenameByNodeEnv() {
-  const env = process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : '';
+  const env = process.env.CLOUD_CONFIG_ENV
+      ? `.${process.env.CLOUD_CONFIG_ENV}`
+      : process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : '';
   return `.cloud-config${env}.yml`;
 }
 

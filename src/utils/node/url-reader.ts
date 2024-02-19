@@ -1,8 +1,6 @@
 import http from 'http';
 import https from 'https';
 
-console.log('node url-reader.ts');
-
 export function getUrlContent(url: string, headers?: any) {
   return new Promise((resolve, reject) => {
     const lib = url.startsWith('https') ? https : http;

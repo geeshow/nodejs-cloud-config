@@ -1,4 +1,5 @@
 import yaml from 'js-yaml';
+import commander from 'commander';
 
 function parseKeyValueFormat(fileContent: string) {
   return parseEnvTypeFile(fileContent);
@@ -45,4 +46,17 @@ function parseEnvTypeFile(src: string): Record<string, string> {
   return obj;
 }
 
-export { parseKeyValueFormat, parseYmlFormat, parseJsonFormat }
+/**
+ * Parse the command line arguments
+ * @param args
+ */
+function parseArgs(args: string[]) {
+  const packageJson = require('../package.json');
+  const program = new commander.Command();
+  return program
+      .version(packageJson.version, '-v, --version')
+      .usage('[options] <command> [...args]')
+      .option('-e, --environment [env]', 'Set the cloud-config environment like dev, staging, prod', '')
+      .parse(['_', '_', ...args]);
+}
+export { parseKeyValueFormat, parseYmlFormat, parseJsonFormat, parseArgs }
