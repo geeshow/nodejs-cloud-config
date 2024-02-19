@@ -1,5 +1,5 @@
 import {Fetcher, IConfig} from "../index";
-import {getUrlContent} from "../../utils/url-reader";
+import {getUrlContent} from "../../utils/node/url-reader";
 
 export interface FetchEnvSpringParam {
   serverUrl: string;

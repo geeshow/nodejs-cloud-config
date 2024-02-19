@@ -2,3 +2,6 @@
 .idea
 .cloud-config.git.yml
 /lib/
+/dist/
+/register/
+.env.dev
