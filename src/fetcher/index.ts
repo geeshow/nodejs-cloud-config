@@ -5,6 +5,7 @@ import {FetchEnvSpringParam, SpringFetcher} from "./spring-fetcher";
 import {parseJsonFormat, parseKeyValueFormat, parseYmlFormat} from "../utils/parser";
 import yaml from "js-yaml";
 import {IRemoteFormatType, YmlConfigFile} from "../types/YmlConfigFile";
+import {GitCliFetcher} from "./gitcli-fetcher";
 export interface IConfig {
   [name: string]: string;
 }
@@ -21,6 +22,8 @@ export function createFetcher(config: YmlConfigFile): Fetcher {
   switch (type) {
     case 'git':
       return new GitFetcher(param as FetchEnvGitParam, parser);
+    case 'gitcli':
+      return new GitCliFetcher(param as FetchEnvGitParam, parser);
     case 'url':
       return new UrlFetcher(param as FetchEnvUrlParam, parser);
     case 'spring':
