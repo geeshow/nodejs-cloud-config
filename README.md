@@ -19,10 +19,9 @@ Please refer to the detailed description of the usage below.
 }
 ```
 
--e, --environment: Set the environment variable to load. If not set, the default environment variable(`.cloud-config.yml`) is loaded.
+-e, --environment: Specifies the environment for which to load configuration variables. If not set, the default configuration file (.cloud-config.yml) is used.
 
-You can use environment variables using `process.env`
-In the React environment, use the environment variable naming rule by adding `REACT_APP_`.
+Access loaded environment variables through `process.env...` In a React environment, prepend `REACT_APP_` to the names of your environment variables according to the naming convention.
 
 - Runtime
 ```javascript
@@ -36,8 +35,7 @@ CloudConfig.load((config) => {
   console.log('Loaded config in Promise: ', config);
 })
 ```
-You can load environment variables during Node runtime. This library returns a Promise, so the logic that requires environment variables should be used after the .env file is loaded.
-
+Load environment variables at runtime with this library, which returns a Promise. Ensure to place any logic that depends on these variables within or after the promise resolution to guarantee they are available.
 
 ```javascript
 const config = await CloudConfig.load();
@@ -94,7 +92,7 @@ PROJECT_ROOT/.cloud-config.prod.yml (environment=prod)
 Cloud config can load remote environment variables in the following ways.
 
 ### type 1. remote url ![remote](https://img.shields.io/badge/remote-url-blue)
-Load environment variables using a public URL. Since the URL is public, be careful as it may be exposed to the outside world.
+Loads environment variables from a public URL. Exercise caution with this method, as the URL and its contents could be accessible publicly.
 
 ```yaml
 # .cloud-config.yml
@@ -106,7 +104,7 @@ remote:
   debug: false
 ```
 
-### type 2. github repository ![github](https://img.shields.io/badge/github-blue) 
+### type 2-1. github repository by API ![github](https://img.shields.io/badge/github-blue) 
 Load environment variables using a remote repository on Github. To use a remote repository on Github, you need a `personal accesss token` with read permission.
 
 ```yaml
@@ -115,13 +113,31 @@ remote:
   type: git
   format: json // or yml, yaml, env, key=value
   param:
-    token: # Your GitHub token
-    owner: # Your GitHub username
-    repo: # Your GitHub repository
-    path: # Your GitHub file path
-    branch: # Your GitHub branch name
+    token: # Your Github token
+    owner: # Your Github username
+    repo: # Your Github repository
+    path: # Your Github file path
+    branch: # Your Github branch name
   debug: false
 ```
+
+### type 2-2. Github repository by CLI ![github](https://img.shields.io/badge/github-blue) 
+The `github cli` command loads environment variables from a remote repository without using a Personal Access Token in the cloud-config file. To use Github CLI, you need to log in to Github CLI.
+
+> The `github cli` command is not supported branch. Only the main branch is supported. If you want to use another branch, you need to change the default branch of the repository to the main branch.
+
+```yaml
+# .cloud-config.yml
+remote:
+  type: gitcli
+  format: json // or yml, yaml, env, key=value
+  param:
+    owner: # Your Github username
+    repo: # Your Github repository
+    path: # Your Github file path
+  debug: false
+```
+
 ### type 3. spring cloud config server ![spring-cloud-config](https://img.shields.io/badge/spring--cloud--config-blue) 
 Load environment variables using a spring cloud config server. To use a spring cloud config server, you need a URL where the spring cloud config server is running.
 
@@ -141,7 +157,7 @@ The cloud config can be used as a command chain in the script of the command pac
 
 | Option            | Description |
 |-------------------|-------------|
-| -e, --environment | Set the environment variable to load. If not set, the default environment variable(`.cloud-config.yml`) is loaded. |
+| -e, --environment | Specifies the environment for which to load configuration variables. If not set, the default configuration file (.cloud-config.yml) is used. |
 | -v, --version     | Show version number |
 
 ### Example - check version
@@ -168,7 +184,7 @@ Cloud config returns a Promise because it uses external resources. Therefore, th
 The initial execution logic should be executed after cloud config is completed as follows.
 ex) Write the code to load cloud config in /src/index.ts and write the code to run the server in /src/app.ts.
 
-> It is not yet supported in browser environments such as React and Vue.
+> Currently, direct browser environment support, including frameworks like React and Vue, is not available.
 
 ### Express example ![express](https://img.shields.io/badge/express-blue)
 

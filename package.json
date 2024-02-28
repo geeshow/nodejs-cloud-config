@@ -1,6 +1,6 @@
 {
   "name": "nodejs-cloud-config",
-  "version": "0.1.2",
+  "version": "0.2.1",
   "description": "Initial environment configuration from remote repository",
   "bin": {
     "cloud-config": "dist/register.cjs"
@@ -14,6 +14,7 @@
     "roullup": "npm run clean && npx rollup --config",
     "spring-test": "NODE_ENV=spring node dist/register",
     "command-git-test": "chmod +x ./dist/register.cjs && ./dist/register.cjs -e git jest --config jest.config.cjs",
+    "command-gitcli-test": "chmod +x ./dist/register.cjs && ./dist/register.cjs -e git ls",
     "git-test": "NODE_ENV=git node register",
     "url-test": "NODE_ENV=url node register",
     "test": "jest --config jest.config.cjs",

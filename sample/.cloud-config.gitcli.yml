@@ -1,0 +1,8 @@
+remote:
+  type: gitcli
+  format: key=value
+  param:
+    owner: your-github-username
+    repo: your-github-repository
+    path: your-github-file-path
+  debug: false
